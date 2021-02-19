@@ -28,3 +28,25 @@ We aim to do the parallel preprocessing and the training following these steps:
 5. Preprocess the extracted features in the steps above and apply dimension reduction with methods such as PCA, SVD, or t-SNE. 
 6. Implement supervised classification techniques such as Logistic Regression, Random Forest, KNN or Multi Layer Perceptron, Decision Trees, Naive Bayes, and SVM.
 7. Analyse, interpret and discuss the results, the limitations, and the scalability.
+
+## References
+
+[1] Peiravian N, Zhu X (2013) Machine learning for android malware detection using permission and API calls. Int Conf Tools Artif Intell:300–305
+
+[2] Suarez-Tangil G, Kumar Dash S, Ahmadi M, Kinder J, Giacinto G, Cavallaro L (2017) DroidSieve: fast and accurate classification of obfuscated android malware. In: Proceedings of the seventh ACM on conference on data and application security and privacy. ACM, New York, pp 309–320
+
+[3] . Aafer Y, Du W, Yin H (2013) Droidapiminer: mining api-level features for robust malware detection in android. In: International conference on security and privacy in communication systems, pp 86–103
+
+[4] Ahmed F, Hameed H, Shafiq MZ, Farooq M (2009) Using spatio-temporal information in API calls with machine learning algorithms for malware detection. In: Proceedings of the 2nd ACM workshop on security and artificial intelligence. ACM, New York, pp 55–62 
+
+[5] Tian R, Islam R, Batten L, Versteeg S (2010) Differentiating malware from cleanware using behavioural analysis. In: International conference on malicious and unwanted software
+
+[6] L. Nataraj, S. Karthikeyan, G. Jacob, and B. S. Manjunath. 2011. Malware images : visualization and automatic classification. In Proceedings of the 8th international symposium on visualization for cyber security, Pittsburgh, Pennsylvania USA,July 2011 (VizSec 2011).DOI : http ://dx.doi.org/10.1145/2016904.2016908
+
+[7] . Kumar Dash S, Suarez-Tangil G, Khan S (2016) DroidScribe: classifying android malware based on runtime behavior. In: IEEE security and privacy workshops. Conference Publishing Services, IEEE Computer Society, Los Alamitos, pp 252–261 
+
+[8]. Chaba S, Kumar R, Pant R, Dave M, Malware detection approach for android systems using system call logs. arXiv preprint, arXiv:1709.08805
+
+[9] Arp, D.; Spreitzenbarth, M.; Hubner, M.; Gascon, H.; Rieck, K. DREBIN: Effective and Explainable Detection of Android Malware in Your Pocket. In Proceedings of the Network and Distributed System Security Symposium (NDSS), San Diego, CA, USA, 23–26 February 2014
+
+[10] Michael Spreitzenbarth, Florian Echtler, Thomas Schreck, Felix C. Freling, Johannes Hoffmann, "MobileSandbox: Looking Deeper into Android Applications", 28th International ACM Symposium on Applied Computing (SAC), March 2013

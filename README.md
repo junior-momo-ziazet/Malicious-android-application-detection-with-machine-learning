@@ -29,7 +29,7 @@ We aim to do the parallel preprocessing and the training following these steps:
 6. Implement supervised classification techniques such as Logistic Regression, Random Forest, KNN or Multi Layer Perceptron, Decision Trees, Naive Bayes, and SVM.
 7. Analyse, interpret and discuss the results, the limitations, and the scalability.
 
-## References
+### References
 
 [1] Peiravian N, Zhu X (2013) Machine learning for android malware detection using permission and API calls. Int Conf Tools Artif Intell:300–305
 

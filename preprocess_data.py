@@ -145,14 +145,10 @@ def generate_manifest_features(path, all_permission_file, apk_type):
     
 
 path = 'data_downloaded'  
-filename_path = 'permissions.txt'
+filename_path = 'all_permissions.txt'
 dataset=[]
 for apk_type in ['benign','malicious']:
     features = generate_manifest_features(path, filename_path, apk_type )
     features.to_csv(apk_type+'_dataframe.csv', index=False, header=True)
     dataset.append(features)
- 
-
-#%%
-features = pd.DataFrame(columns=['a','v'])
-features.to_excel('_Export_dataframe.xls', index=True, header=True)                 
+              

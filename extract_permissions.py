@@ -1,6 +1,10 @@
 import xml.etree.ElementTree as ET
 import pandas as pd
 import csv
+import os
+import zipfile
+
+# CODE TO UNZIP THE APK AND RETURN FILE
 
 permissions_labels = []
 
@@ -14,7 +18,7 @@ permissions_label = sorted(permissions_labels)
 data = pd.DataFrame(columns=permissions_labels)
 
 
-def xmlToCSV(data, filename):
+def xmlToCSV(filename):
     permissions = {}
     for permission_label in permissions_labels:
         permissions[permission_label] = 0
@@ -27,9 +31,15 @@ def xmlToCSV(data, filename):
     return pd.concat([data, df])
 
 
-files = ["./test.xml", "./test.xml"]
+base_path = os.path.expanduser("~/Desktop/benign_apk")
 
-for filename in files:
-    data = xmlToCSV(data, filename)
+for filename in os.listdir(base_path):
+    abs_path = base_path + "/" + filename
+    if filename[-4:] == ".zip":
+        with zipfile.ZipFile(abs_path, 'r') as unzipped_file:
+            file_path = base_path + "/" + filename[:-4]
+            unzipped_file.extractall(file_path)
+            os.remove(abs_path)
+            # data = xmlToCSV(file_path + "/AndroidManifest.xml")
 
 data.to_csv('Export_dataframe.csv', index=False, header=True)

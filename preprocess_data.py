@@ -48,7 +48,6 @@ def extract_file_from_APK(path, file_type='manifest'):
     for _, _, f in os.walk(path):
         for file in f:
             i = i + 1
-            # print(file)
             apk_path = path+file
             try:
                 with apkfile.ZipFile(apk_path, 'r') as unzip_file:
@@ -58,20 +57,24 @@ def extract_file_from_APK(path, file_type='manifest'):
                                 data = unzip_file.read(name)
                                 axml = AXML(data).get_xml()
                                 dat = xmltodict.parse(axml, False)['manifest']
-                                extracted_files.append(dat)
+                                extracted_files.append(
+                                    {"file_name": file, "m_file": dat})
+                                print(name + " " + str(i))
                             except Exception as e:
                                 print(e)
                         elif file_type == 'dex' and name.startswith('classes') and name.endswith('.dex'):
                             try:
                                 data = unzip_file.read(name)
                                 dat = DexFile(data)
-                                extracted_files.append(dat)
+                                extracted_files.append(
+                                    {"file_name": file, "d_file": dat})
                                 print(name + " " + str(i))
                             except Exception as e:
                                 print(e)
                         else:
                             pass
             except Exception as e:
+                print("ERROR:")
                 print(e)
                 pass
 
@@ -122,29 +125,32 @@ def xmlToCSV(data, permission_dict):
 
     '''
 
-    features = pd.DataFrame(columns=sorted(list(permission_dict.keys())))
+    features = pd.DataFrame(columns=sorted(
+        list(permission_dict.keys())).insert(0, "id"))
 
-    for idx, file in enumerate(data):
+    for idx, ele in enumerate(data):
+        m_file = ele["m_file"]
+        file_name = ele["file_name"]
         tree = []
         copy_permission_dict = permission_dict.copy()
 
-        if 'permission' in list(file.keys()):
-            if isinstance(file['permission'], dict):
-                p = file['permission']['@android:name'].rpartition('.')[-1]
+        if 'permission' in list(m_file.keys()):
+            if isinstance(m_file['permission'], dict):
+                p = m_file['permission']['@android:name'].rpartition('.')[-1]
                 tree.append(p) if p not in tree else tree
-            elif isinstance(file['permission'], list):
+            elif isinstance(m_file['permission'], list):
                 [tree.append(f['@android:name'].rpartition('.')[-1])
-                 for f in file['permission'] if f['@android:name'].rpartition('.')[-1] not in tree]
+                 for f in m_file['permission'] if f['@android:name'].rpartition('.')[-1] not in tree]
             else:
                 pass
-        if 'uses-permission' in list(file.keys()):
-            if isinstance(file['uses-permission'], dict):
-                p = file['uses-permission']['@android:name'].rpartition(
+        if 'uses-permission' in list(m_file.keys()):
+            if isinstance(m_file['uses-permission'], dict):
+                p = m_file['uses-permission']['@android:name'].rpartition(
                     '.')[-1]
                 tree.append(p) if p not in tree else tree
-            elif isinstance(file['uses-permission'], list):
+            elif isinstance(m_file['uses-permission'], list):
                 [tree.append(f['@android:name'].rpartition('.')[-1])
-                 for f in file['uses-permission'] if f['@android:name'].rpartition('.')[-1] not in tree]
+                 for f in m_file['uses-permission'] if f['@android:name'].rpartition('.')[-1] not in tree]
             else:
                 pass
 
@@ -153,6 +159,7 @@ def xmlToCSV(data, permission_dict):
                 copy_permission_dict[name] = 1
 
         df = pd.DataFrame(copy_permission_dict, index=[idx])
+        df["id"] = file_name
 
         features = pd.concat([features, df])
 
@@ -298,8 +305,11 @@ def generate_dex_features(path, apk_type):
     extract_file = extract_file_from_APK(path, "dex")
     # opcode_list = []
     j = 0
-    for d_file in extract_file:
-        j = j + 1
+    for some_file in extract_file:
+        filename = some_file["file_name"]
+        d_file = some_file["d_file"]
+        if (j % 10) == 0:
+            print(str(round(((j / len(extract_file)) * 100), 2)) + "%")
         try:
             opcode_list = _dex_files(d_file)
             for w_h in width_height:
@@ -321,21 +331,26 @@ def generate_dex_features(path, apk_type):
                 # image = np.array(list(image.getdata(band=0)),
                 #                  float).reshape(w_h[1], w_h[0])
                 U, S, V = svd(image, full_matrices=True)
-                row_df = pd.DataFrame([S])
+                row_df = pd.DataFrame(
+                    [[item for sublist in [[filename], S] for item in sublist]])
                 df = pd.concat([df, row_df], ignore_index=True)
                 print("df no " + str(j) + " created")
 
         except Exception as e:
             print("An error occured " + str(e))
+        j = j+1
     return df
 
 
-for apk_type in ['benign']:
-    # features = generate_manifest_features(path, filename_path, apk_type)
-    # features.to_csv(apk_type+'_dataframe.csv', index=False, header=True)
+final_df = pd.DataFrame()
+for apk_type in ['malicious']:
+    features = generate_manifest_features(path, filename_path, apk_type)
+    final_df = pd.concat([final_df, features])
+    # features.to_csv("drebin_manifest_analysis.csv")
     # dataset.append(features)
-    some_df = generate_dex_features(path, apk_type)
-    # some_df.to_excel("./dex_file_analysis")
-    print(some_df)
+    # some_df = generate_dex_features(path, apk_type)
+    # some_df.to_csv("drebin_dexfile_analysis_6.csv")
 
+final_df.set_index("id").to_csv("drebin_manifest_analysis.csv")
+# print(dataset)
 # %%

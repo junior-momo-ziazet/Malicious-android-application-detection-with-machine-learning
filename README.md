@@ -34,8 +34,12 @@ Therefore, AndroidManifest.xml, indicating the permissions the App is using, and
 ### Manifest File
 As shown in [Figure 2], we extracted data from the AndroidManifest.xml by mapping the permissions as features and attribute a value of 1 if the permission is used and 0 otherwise.
 
+![Figure 2](./Figures/Figure2.png)
+
 ### Dex File
 In order to extract valuable information from the DexFile, we had to refer to the data section where the code is contained. We then converted the different instructions into opcode sequences, and mapped them to a 32x32-bit SimHash Matrix. We then took the singular values of the Singular Value Decomposition of this Matrix and added them as features. [Figure 3]
+
+![Figure 3](./Figures/Figure3.png)
 
 We labeled Malicious instances as 1 and Benign instances as 0 for Supervised Classification purposes.
 
@@ -48,10 +52,14 @@ We had to filter the rows that were failing upon either Android Manifest or DexF
 ### Column Preprocessing
 We had over 250 permissions in total, and a consequential part was never used by any of the applications, as we can see on [Figure 5], the red lines indicate the permissions that weren’t being used. We decided to remove them in order to reduce the number of features.
 
+![Figure 4](./Figures/Figure4.png)
+
 ### Value Preprocessing
 We used Scikit-Learn’s Standardscaler to process the values of our features, as the difference between Manifest features and DexFile features was considerable.
 
 After Preprocessing, we managed to reduce our feature count from 356 to 184, and our rows from 11,560 to 10,778 (5230 Benign, 5548 Malicious). [Figure 5]
+
+![Figure 5](./Figures/Figure5.png)
 
 ## Model Training
 We approached model training by experimenting on various models, and different data structures.
@@ -84,10 +92,18 @@ We compared our models based on the F1-score each model got after test set predi
 
 ## Dataset Comparison
 After running the different models on our three datasets, we plotted the results of each model in order to compare their F1 scores.
+
+![Figure 6](./Figures/Figure6.png)
+![Figure 7](./Figures/Figure7.png)
+![Figure 8](./Figures/Figure8.png)
+
 We realized that the most performant Dataset was the Merged Dataset, ranging from an F1 score of 88.8% to 92.3%, compared to the other datasets (56.9% to 85.6% for DexFile and 80.7% to 86.8% for Manifest).
 
 ## Best Model
 Upon dataset selection, we observed that the most performant model is SVC. We got an F1 score of 92.4% and an accuracy of 92.6% [Figure 9]. We also plotted the Confusion Matrix to compare the true and false predictions. [Figure 10].
+
+![Figure 9](./Figures/Figure9.png)
+![Figure 10](./Figures/Figure10.png)
 
 ## Optimization
 In order to improve the performance of our models, we decided to combine multiple models using the Bagging Method from the Merged Dataset, as most of them were performant but different in the way they are designed.
@@ -96,6 +112,10 @@ We merged the predictions of SVC, MLP, KNN, Decision Tree Classifier, and Random
 
 ## Final Results
 We improved the F1 Score by 1.7%, and the Accuracy by 1.5% using the Bagging Model as shown in [Figure 11].
+
+![Figure 11](./Figures/Figure11.png)
+![Figure 12](./Figures/Figure12.png)
+![Figure 13](./Figures/Figure13.png)
 
 # Discussion
 

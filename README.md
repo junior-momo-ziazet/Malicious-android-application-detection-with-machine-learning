@@ -29,6 +29,8 @@ The instances from the dataset were in APK folder format. We had to extract the 
 In general, malicious code exists in an executable module found in classes.dex, it can also be detected through suspicious permissions stored in the AndroidManisfest.xml file.
 Therefore, AndroidManifest.xml, indicating the permissions the App is using, and classes.dex, containing information on the code of the app such as classes and methods, were the files of interest in the APK folder. [Figure 1]
 
+![Figure 1](./Figures/Figure1.png)
+
 ### Manifest File
 As shown in [Figure 2], we extracted data from the AndroidManifest.xml by mapping the permissions as features and attribute a value of 1 if the permission is used and 0 otherwise.
 

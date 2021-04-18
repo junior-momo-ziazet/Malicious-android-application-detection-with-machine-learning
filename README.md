@@ -1,10 +1,10 @@
 # Malicious Android Application Detection with Machine Learning
 
-## Abstract
+# Abstract
 
 In the past decade, Android rose up to be the most used Mobile Operating System with an  [87% market share](https://www.idc.com/promo/smartphone-market-share/os#:~:text=Android%3A%20Android's%20smartphone%20share%20will,response%20despite%20the%20pandemic%20hurdles). Compared to its main competitor iOS, Android is a lax system that allows downloads from a wide variety of sources. The openness of Android causes the system to be vulnerable to the injection of Malicious Software that could cause security breach as well as data privacy endangerment. In this report, we will discuss how we used 6000 Benign APKs from the [AndroZoo dataset](https://androzoo.uni.lu/) and 5560 Malicious APKs from the [Drebin dataset](https://www.sec.cs.tu-bs.de/~danarp/drebin/) to conduct a Dataset Analysis in order to create a Prediction System that determines whether an Application is Malicious or not. We go over the different steps of our solution such as Data Extraction, which consists of converting the APK to a set of features, different Machine Learning Models Training, Observations, and Results Analysis. The report also talks about the potential improvements, the limitations, and the scalability of the project, as well as its relevance in the Malware Detection Field.
 
-## Introduction
+# Introduction
 
 At its I/O 2019 Developer Conference in Mountain View, Google revealed that Android now powers [2.5 billion active devices](https://venturebeat.com/2019/05/07/android-passes-2-5-billion-monthly-active-devices/). One of the reasons for this growth of Google-developed Android is it's free and open-source platform, which allows mobile phone manufacturers to use and adapt the operating system for their own devices. Being an open Operating System, Android is vulnerable to malicious software.
 
@@ -16,46 +16,46 @@ From what we were able to find, several Machine Learning approaches have been pr
 
 The report will be structured in three parts: [Section 2 - Material and Methods](#materials-and-methods) where we describe the tools and techniques used to solve the problem, [Section 3 - Results](#results), where we present the results obtained, and [Section 4 - Discussion](#discussion), where we discuss the relevance of our solution, point the limitations, and discuss possible future work.
 
-## Materials and Methods
+# Materials and Methods
 The Material and Methods section consists on explaining the different steps of our process to build the Malware Application Detector, such as Data Collection, Data Extraction, Data Preprocessing, and Model Training.
 
-### Data Collection
+## Data Collection
 
 The proposed approach will use the Static Analysis method of Android Applications. The Dataset created by the Drebin study was used for collecting the Malicious Applications, which has been shared as open source [9, 10]. This Dataset contains 5560 Applications from 179 different Malware Families. We collected 6000 Malware-free foolproof APKs from AndroZoo, in order to create a Benign Applications Dataset. Both Datasets were collected in February 2021.
 
-### Data Extraction
+## Data Extraction
 
 The instances from the dataset were in APK folder format. We had to extract the information we needed from the APK and convert it into data the model understands.
 In general, malicious code exists in an executable module found in classes.dex, it can also be detected through suspicious permissions stored in the AndroidManisfest.xml file.
 Therefore, AndroidManifest.xml, indicating the permissions the App is using, and classes.dex, containing information on the code of the app such as classes and methods, were the files of interest in the APK folder. [Figure 1]
 
-#### Manifest File
+### Manifest File
 As shown in [Figure 2], we extracted data from the AndroidManifest.xml by mapping the permissions as features and attribute a value of 1 if the permission is used and 0 otherwise.
 
-#### Dex File
+### Dex File
 In order to extract valuable information from the DexFile, we had to refer to the data section where the code is contained. We then converted the different instructions into opcode sequences, and mapped them to a 32x32-bit SimHash Matrix. We then took the singular values of the Singular Value Decomposition of this Matrix and added them as features. [Figure 3]
 
 We labeled Malicious instances as 1 and Benign instances as 0 for Supervised Classification purposes.
 
-### Data Preprocessing
+## Data Preprocessing
 Once we gathered the different features, we needed to preprocess the data, for training optimization purposes. We used different preprocessing techniques to process rows (instances), columns (features), and values:
 
-#### Row Preprocessing
+### Row Preprocessing
 We had to filter the rows that were failing upon either Android Manifest or DexFile extraction as we couldn’t merge all the columns of these instances. We also removed the APKs that had multiple DexFile, which caused multiple rows for the same instance.
 
-#### Column Preprocessing
+### Column Preprocessing
 We had over 250 permissions in total, and a consequential part was never used by any of the applications, as we can see on [Figure 5], the red lines indicate the permissions that weren’t being used. We decided to remove them in order to reduce the number of features.
 
-#### Value Preprocessing
+### Value Preprocessing
 We used Scikit-Learn’s Standardscaler to process the values of our features, as the difference between Manifest features and DexFile features was considerable.
 
 After Preprocessing, we managed to reduce our feature count from 356 to 184, and our rows from 11,560 to 10,778 (5230 Benign, 5548 Malicious). [Figure 5]
 
-### Model Training
+## Model Training
 
 We approached model training by experimenting on various models, and different data structures.
 
-#### Dataset
+### Dataset
 
 We applied the different models on 3 separate datasets:
 Manifest features
@@ -64,7 +64,7 @@ Manifest-DexFile features Merge
 
 We split the dataset into Training (80%) and Testing (20%) sets in order to test the model and compare results.
 
-#### Models
+### Models
 
 We selected seven models to train our data:
 
@@ -76,11 +76,11 @@ Support Vector Machine (SVM)
 Gaussian Naïve Bayes
 Ensemble Methods on the Best Models
 
-#### Training
+### Training
 
 We used Scikit-Learn’s Randomized Search to perform 10-Fold Cross Validation and hyperparameter tuning on our models.
 
-#### Metrics
+### Metrics
 
 We compared our models based on the F1-score each model got after test set predictions.
 
@@ -93,7 +93,7 @@ We compared our models based on the F1-score each model got after test set predi
 
 
 
-### References
+## References
 
 [1] Peiravian N, Zhu X (2013) Machine learning for android malware detection using permission and API calls. Int Conf Tools Artif Intell:300–305
 

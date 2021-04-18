@@ -77,7 +77,7 @@ We used Scikit-Learn’s Randomized Search to perform 10-Fold Cross Validation a
 We compared our models based on the F1-score each model got after test set predictions.
 
 
-# Resutls
+# Results
 
 ## Dataset Comparison
 After running the different models on our three datasets, we plotted the results of each model in order to compare their F1 scores.

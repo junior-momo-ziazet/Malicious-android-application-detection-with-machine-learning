@@ -17,21 +17,81 @@ From what we were able to find, several Machine Learning approaches have been pr
 The report will be structured in three parts: [Section 2 - Material and Methods](#materials-and-methods) where we describe the tools and techniques used to solve the problem, [Section 3 - Results](#results), where we present the results obtained, and [Section 4 - Discussion](#discussion), where we discuss the relevance of our solution, point the limitations, and discuss possible future work.
 
 ## Materials and Methods
+The Material and Methods section consists on explaining the different steps of our process to build the Malware Application Detector, such as Data Collection, Data Extraction, Data Preprocessing, and Model Training.
 
-The system will use the static analysis method for the analysis of Android applications.
-The data set created in the [Drebin](https://www.sec.cs.tu-bs.de/~danarp/drebin/) study was used for collecting the malicious applications, which has been shared as an open resource. This dataset contains 5560 applications from 179 different malware families. These samples were collected in February 2021 [9, 10]. To create a benign applications data set, we collected 6000 APKs from [AndroZoo](http://doi.acm.org/10.1145/2901739.2903508). As stated in the AndroZoo web page, these APKs were collected from several sources, including the official Google Play app market and then analysed by tens of different AntiVirus to fool proof the absence of malware in these applications.
-Each unit of data is a compressed APK file containing different components and the most essential components are the AndroidManifest.xml, classes.dex, and resources.arsc files. AndroidManifest.xml is an encoded XML file containing information about attributes and permissions of the app, and resources.arsc is an encoded file containing resource information about the app. Finally classes.dex, known as the Dex file, contains the compiled code that is used to run the app. In general, malicious code exists in an executable module found in classes.dex, it can also be detected through suspicious permissions stored in the AndroidManisfest.xml file. Therefore, we will focus on these two components, AndroidManifest.xml and classes.dex for our analysis.
+### Data Collection
 
-We will use libraries such as [apkutils](https://pypi.org/project/apkutils/), [nltk](https://www.nltk.org/), [hashlib](https://docs.python.org/3/library/hashlib.html), [xmltodict](https://pypi.org/project/xmltodict/), [binascii](https://docs.python.org/3/library/binascii.html), to preprocess and clean the data and [scikit learn](https://scikit-learn.org/stable/) to build the model.
-We aim to do the parallel preprocessing and the training following these steps:
+The proposed approach will use the Static Analysis method of Android Applications. The Dataset created by the Drebin study was used for collecting the Malicious Applications, which has been shared as open source [9, 10]. This Dataset contains 5560 Applications from 179 different Malware Families. We collected 6000 Malware-free foolproof APKs from AndroZoo, in order to create a Benign Applications Dataset. Both Datasets were collected in February 2021.
 
-1. Unpack the APK file using the unzip utility
-2. Extract the AndroidManifest.xml and classes.dex from all the APK using the [Apktool](https://ibotpeaches.github.io/Apktool) .
-3. Use the Manifest file to map the permissions as features and attribute a value of 1 if the permission is used and 0 otherwise.
-4. Sparse the class data from classes.dex file and extract the opcode sequence, then use n-gram technique to encode the opcode sequence to n-bit SimHash in order to get features with n number of elements per features.
-5. Preprocess the extracted features in the steps above and apply dimension reduction with methods such as PCA, SVD, or t-SNE.
-6. Implement supervised classification techniques such as Logistic Regression, Random Forest, KNN or Multi Layer Perceptron, Decision Trees, Naive Bayes, and SVM.
-7. Analyse, interpret and discuss the results, the limitations, and the scalability.
+### Data Extraction
+
+The instances from the dataset were in APK folder format. We had to extract the information we needed from the APK and convert it into data the model understands.
+In general, malicious code exists in an executable module found in classes.dex, it can also be detected through suspicious permissions stored in the AndroidManisfest.xml file.
+Therefore, AndroidManifest.xml, indicating the permissions the App is using, and classes.dex, containing information on the code of the app such as classes and methods, were the files of interest in the APK folder. [Figure 1]
+
+#### Manifest File
+As shown in [Figure 2], we extracted data from the AndroidManifest.xml by mapping the permissions as features and attribute a value of 1 if the permission is used and 0 otherwise.
+
+#### Dex File
+In order to extract valuable information from the DexFile, we had to refer to the data section where the code is contained. We then converted the different instructions into opcode sequences, and mapped them to a 32x32-bit SimHash Matrix. We then took the singular values of the Singular Value Decomposition of this Matrix and added them as features. [Figure 3]
+
+We labeled Malicious instances as 1 and Benign instances as 0 for Supervised Classification purposes.
+
+### Data Preprocessing
+Once we gathered the different features, we needed to preprocess the data, for training optimization purposes. We used different preprocessing techniques to process rows (instances), columns (features), and values:
+
+#### Row Preprocessing
+We had to filter the rows that were failing upon either Android Manifest or DexFile extraction as we couldn’t merge all the columns of these instances. We also removed the APKs that had multiple DexFile, which caused multiple rows for the same instance.
+
+#### Column Preprocessing
+We had over 250 permissions in total, and a consequential part was never used by any of the applications, as we can see on [Figure 5], the red lines indicate the permissions that weren’t being used. We decided to remove them in order to reduce the number of features.
+
+#### Value Preprocessing
+We used Scikit-Learn’s Standardscaler to process the values of our features, as the difference between Manifest features and DexFile features was considerable.
+
+After Preprocessing, we managed to reduce our feature count from 356 to 184, and our rows from 11,560 to 10,778 (5230 Benign, 5548 Malicious). [Figure 5]
+
+### Model Training
+
+We approached model training by experimenting on various models, and different data structures.
+
+#### Dataset
+
+We applied the different models on 3 separate datasets:
+Manifest features
+DexFile features
+Manifest-DexFile features Merge
+
+We split the dataset into Training (80%) and Testing (20%) sets in order to test the model and compare results.
+
+#### Models
+
+We selected seven models to train our data:
+
+Decision Tree Classifier
+Random Forest Classifier
+Multi Layer Perceptron (MLP)
+K Nearest Neighbors (KNN)
+Support Vector Machine (SVM)
+Gaussian Naïve Bayes
+Ensemble Methods on the Best Models
+
+#### Training
+
+We used Scikit-Learn’s Randomized Search to perform 10-Fold Cross Validation and hyperparameter tuning on our models.
+
+#### Metrics
+
+We compared our models based on the F1-score each model got after test set predictions.
+
+
+
+
+
+
+
+
+
 
 ### References
 

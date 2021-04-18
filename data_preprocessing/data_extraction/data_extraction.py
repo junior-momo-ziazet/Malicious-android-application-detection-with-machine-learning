@@ -303,31 +303,6 @@ def extract_feature_from_APK(path, permission_dict, file_type='manifest'):
 
 
 def main(apk_type='benign', f_type='dex'):
-
-    path = '../../data/'
-    all_permission_file = 'all_permissions.txt'
-
-    APK_type = {'benign': '/Benign_APK/',
-                'malicious': '/Malicious_APK/'}
-
-    file_types = ['manifest', 'dex']
-    permission_dict = get_list_permission(all_permission_file)
-
-    feature = {}
-    for f_type in file_types:
-        for apk_type in APK_type.keys():
-
-            path = path + APK_type[apk_type]
-
-            feature[apk_type+"_"+f_type] = extract_feature_from_APK(
-                path, permission_dict, file_type=f_type)
-            print("df", feature)
-            feature[apk_type+"_" +
-                    f_type].to_csv(apk_type+"_"+f_type+"_dataset.csv")
-            print("htht")
-
-
-def main(apk_type='benign', f_type='dex'):
     '''
     This function save  the csv of featuresgiven the type of apk and file
     Input:

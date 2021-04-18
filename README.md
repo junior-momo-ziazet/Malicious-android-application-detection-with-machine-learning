@@ -34,12 +34,12 @@ Therefore, AndroidManifest.xml, indicating the permissions the App is using, and
 ### Manifest File
 As shown in [Figure 2], we extracted data from the AndroidManifest.xml by mapping the permissions as features and attribute a value of 1 if the permission is used and 0 otherwise.
 
-<img src="./Figures/Figure2.png" width="40%" height="40%" />
+<img src="./Figures/Figure2.png" width="60%" height="60%" />
 
 ### Dex File
 In order to extract valuable information from the DexFile, we had to refer to the data section where the code is contained. We then converted the different instructions into opcode sequences, and mapped them to a 32x32-bit SimHash Matrix. We then took the singular values of the Singular Value Decomposition of this Matrix and added them as features. [Figure 3]
 
-<img src="./Figures/Figure3.png" width="40%" height="40%" />
+<img src="./Figures/Figure3.png" width="60%" height="60%" />
 
 We labeled Malicious instances as 1 and Benign instances as 0 for Supervised Classification purposes.
 
@@ -102,7 +102,7 @@ We realized that the most performant Dataset was the Merged Dataset, ranging fro
 ## Best Model
 Upon dataset selection, we observed that the most performant model is SVC. We got an F1 score of 92.4% and an accuracy of 92.6% [Figure 9]. We also plotted the Confusion Matrix to compare the true and false predictions. [Figure 10].
 
-<img src="./Figures/Figure9.png" width="40%" height="40%" />
+<img src="./Figures/Figure9.png" width="80%" height="80%" />
 <img src="./Figures/Figure10.png" width="40%" height="40%" />
 
 ## Optimization
@@ -114,7 +114,7 @@ We merged the predictions of SVC, MLP, KNN, Decision Tree Classifier, and Random
 We improved the F1 Score by 1.7%, and the Accuracy by 1.5% using the Bagging Model as shown in [Figure 11].
 
 <img src="./Figures/Figure11.png" width="40%" height="40%" />
-<img src="./Figures/Figure12.png" width="40%" height="40%" />
+<img src="./Figures/Figure12.png" width="80%" height="80%" />
 <img src="./Figures/Figure13.png" width="40%" height="40%" />
 
 # Discussion

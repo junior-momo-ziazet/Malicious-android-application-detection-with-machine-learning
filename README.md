@@ -58,9 +58,9 @@ We approached model training by experimenting on various models, and different d
 ### Dataset
 
 We applied the different models on 3 separate datasets:
-Manifest features
-DexFile features
-Manifest-DexFile features Merge
+* Manifest features
+* DexFile features
+* Manifest-DexFile features Merge
 
 We split the dataset into Training (80%) and Testing (20%) sets in order to test the model and compare results.
 
@@ -68,13 +68,13 @@ We split the dataset into Training (80%) and Testing (20%) sets in order to test
 
 We selected seven models to train our data:
 
-Decision Tree Classifier
-Random Forest Classifier
-Multi Layer Perceptron (MLP)
-K Nearest Neighbors (KNN)
-Support Vector Machine (SVM)
-Gaussian Naïve Bayes
-Ensemble Methods on the Best Models
+* Decision Tree Classifier
+* Random Forest Classifier
+* Multi Layer Perceptron (MLP)
+* K Nearest Neighbors (KNN)
+* Support Vector Machine (SVM)
+* Gaussian Naïve Bayes
+* Ensemble Methods on the Best Models
 
 ### Training
 

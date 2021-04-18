@@ -48,6 +48,7 @@ We had over 250 permissions in total, and a consequential part was never used by
 
 ### Value Preprocessing
 We used Scikit-Learn’s Standardscaler to process the values of our features, as the difference between Manifest features and DexFile features was considerable.
+
 After Preprocessing, we managed to reduce our feature count from 356 to 184, and our rows from 11,560 to 10,778 (5230 Benign, 5548 Malicious). [Figure 5]
 
 ## Model Training

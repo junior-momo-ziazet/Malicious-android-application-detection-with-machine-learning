@@ -27,19 +27,19 @@ The proposed approach will use the Static Analysis method of Android Application
 
 The instances from the dataset were in APK folder format. We had to extract the information we needed from the APK and convert it into data the model understands.
 In general, malicious code exists in an executable module found in classes.dex, it can also be detected through suspicious permissions stored in the AndroidManisfest.xml file.
-Therefore, AndroidManifest.xml, indicating the permissions the App is using, and classes.dex, containing information on the code of the app such as classes and methods, were the files of interest in the APK folder. [Figure 1]
+Therefore, AndroidManifest.xml, indicating the permissions the App is using, and classes.dex, containing information on the code of the app such as classes and methods, were the files of interest in the APK folder. [Figure 1](#fig1)
 
-<img src="./Figures/Figure1.png" width="40%" height="40%" />
+<img id="fig1" src="./Figures/Figure1.png" width="40%" height="40%" />
 
 ### Manifest File
-As shown in [Figure 2], we extracted data from the AndroidManifest.xml by mapping the permissions as features and attribute a value of 1 if the permission is used and 0 otherwise.
+As shown in [Figure 2](#fig2), we extracted data from the AndroidManifest.xml by mapping the permissions as features and attribute a value of 1 if the permission is used and 0 otherwise.
 
-<img src="./Figures/Figure2.png" width="60%" height="60%" />
+<img id="fig2" src="./Figures/Figure2.png" width="60%" height="60%" />
 
 ### Dex File
-In order to extract valuable information from the DexFile, we had to refer to the data section where the code is contained. We then converted the different instructions into opcode sequences, and mapped them to a 32x32-bit SimHash Matrix. We then took the singular values of the Singular Value Decomposition of this Matrix and added them as features. [Figure 3]
+In order to extract valuable information from the DexFile, we had to refer to the data section where the code is contained. We then converted the different instructions into opcode sequences, and mapped them to a 32x32-bit SimHash Matrix. We then took the singular values of the Singular Value Decomposition of this Matrix and added them as features. [Figure 3](#fig3)
 
-<img src="./Figures/Figure3.png" width="60%" height="60%" />
+<img id="fig3" src="./Figures/Figure3.png" width="60%" height="60%" />
 
 We labeled Malicious instances as 1 and Benign instances as 0 for Supervised Classification purposes.
 
@@ -50,16 +50,16 @@ Once we gathered the different features, we needed to preprocess the data, for t
 We had to filter the rows that were failing upon either Android Manifest or DexFile extraction as we couldn’t merge all the columns of these instances. We also removed the APKs that had multiple DexFile, which caused multiple rows for the same instance.
 
 ### Column Preprocessing
-We had over 250 permissions in total, and a consequential part was never used by any of the applications, as we can see on [Figure 4], the red lines indicate the permissions that weren’t being used. We decided to remove them in order to reduce the number of features.
+We had over 250 permissions in total, and a consequential part was never used by any of the applications, as we can see on [Figure 4](#fig4), the red lines indicate the permissions that weren’t being used. We decided to remove them in order to reduce the number of features.
 
-<img src="./Figures/Figure4.png" width="40%" height="40%" />
+<img id="fig4" src="./Figures/Figure4.png" width="40%" height="40%" />
 
 ### Value Preprocessing
 We used Scikit-Learn’s Standardscaler to process the values of our features, as the difference between Manifest features and DexFile features was considerable.
 
-After Preprocessing, we managed to reduce our feature count from 356 to 184, and our rows from 11,560 to 10,778 (5230 Benign, 5548 Malicious). [Figure 5]
+After Preprocessing, we managed to reduce our feature count from 356 to 184, and our rows from 11,560 to 10,778 (5230 Benign, 5548 Malicious). [Figure 5](#fig5)
 
-<img src="./Figures/Figure5.png" width="40%" height="40%" />
+<img id="fig5" src="./Figures/Figure5.png" width="40%" height="40%" />
 
 ## Model Training
 We approached model training by experimenting on various models, and different data structures.
@@ -93,17 +93,17 @@ We compared our models based on the F1-score each model got after test set predi
 ## Dataset Comparison
 After running the different models on our three datasets, we plotted the results of each model in order to compare their F1 scores.
 
-<img src="./Figures/Figure6.png" width="60%" height="60%" />
-<img src="./Figures/Figure7.png" width="60%" height="60%" />
-<img src="./Figures/Figure8.png" width="60%" height="60%" />
+<img id="fig6" src="./Figures/Figure6.png" width="60%" height="60%" />
+<img id="fig7" src="./Figures/Figure7.png" width="60%" height="60%" />
+<img id="fig8" src="./Figures/Figure8.png" width="60%" height="60%" />
 
 We realized that the most performant Dataset was the Merged Dataset, ranging from an F1 score of 88.8% to 92.3%, compared to the other datasets (56.9% to 85.6% for DexFile and 80.7% to 86.8% for Manifest).
 
 ## Best Model
-Upon dataset selection, we observed that the most performant model is SVC. We got an F1 score of 92.4% and an accuracy of 92.6% [Figure 9]. We also plotted the Confusion Matrix to compare the true and false predictions. [Figure 10].
+Upon dataset selection, we observed that the most performant model is SVC. We got an F1 score of 92.4% and an accuracy of 92.6% [Figure 9](#fig9). We also plotted the Confusion Matrix to compare the true and false predictions. [Figure 10](#fig10).
 
-<img src="./Figures/Figure9.png" width="80%" height="80%" />
-<img src="./Figures/Figure10.png" width="40%" height="40%" />
+<img id="fig9" src="./Figures/Figure9.png" width="80%" height="80%" />
+<img id="fig10" src="./Figures/Figure10.png" width="40%" height="40%" />
 
 ## Optimization
 In order to improve the performance of our models, we decided to combine multiple models using the Bagging Method from the Merged Dataset, as most of them were performant but different in the way they are designed.
@@ -111,11 +111,11 @@ The goal behind the Bagging Method is to improve the generalizability and the ro
 We merged the predictions of SVC, MLP, KNN, Decision Tree Classifier, and Random Forest Classifier. We then made the models vote to compute a final prediction.
 
 ## Final Results
-We improved the F1 Score by 1.7%, and the Accuracy by 1.5% using the Bagging Model as shown in [Figure 11].
+We improved the F1 Score by 1.7%, and the Accuracy by 1.5% using the Bagging Model as shown in [Figure 11](#fig11).
 
-<img src="./Figures/Figure11.png" width="40%" height="40%" />
-<img src="./Figures/Figure12.png" width="80%" height="80%" />
-<img src="./Figures/Figure13.png" width="40%" height="40%" />
+<img id="fig11" src="./Figures/Figure11.png" width="40%" height="40%" />
+<img id="fig12" src="./Figures/Figure12.png" width="80%" height="80%" />
+<img id="fig13" src="./Figures/Figure13.png" width="40%" height="40%" />
 
 # Discussion
 

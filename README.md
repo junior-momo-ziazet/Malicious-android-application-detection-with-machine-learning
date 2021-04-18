@@ -93,9 +93,9 @@ We compared our models based on the F1-score each model got after test set predi
 ## Dataset Comparison
 After running the different models on our three datasets, we plotted the results of each model in order to compare their F1 scores.
 
-<img src="./Figures/Figure6.png" width="40%" height="40%" />
-<img src="./Figures/Figure7.png" width="40%" height="40%" />
-<img src="./Figures/Figure8.png" width="40%" height="40%" />
+<img src="./Figures/Figure6.png" width="60%" height="60%" />
+<img src="./Figures/Figure7.png" width="60%" height="60%" />
+<img src="./Figures/Figure8.png" width="60%" height="60%" />
 
 We realized that the most performant Dataset was the Merged Dataset, ranging from an F1 score of 88.8% to 92.3%, compared to the other datasets (56.9% to 85.6% for DexFile and 80.7% to 86.8% for Manifest).
 

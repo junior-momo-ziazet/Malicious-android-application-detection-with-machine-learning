@@ -50,7 +50,7 @@ Once we gathered the different features, we needed to preprocess the data, for t
 We had to filter the rows that were failing upon either Android Manifest or DexFile extraction as we couldn’t merge all the columns of these instances. We also removed the APKs that had multiple DexFile, which caused multiple rows for the same instance.
 
 ### Column Preprocessing
-We had over 250 permissions in total, and a consequential part was never used by any of the applications, as we can see on [Figure 5], the red lines indicate the permissions that weren’t being used. We decided to remove them in order to reduce the number of features.
+We had over 250 permissions in total, and a consequential part was never used by any of the applications, as we can see on [Figure 4], the red lines indicate the permissions that weren’t being used. We decided to remove them in order to reduce the number of features.
 
 ![Figure 4](./Figures/Figure4.png)
 

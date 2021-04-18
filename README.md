@@ -77,13 +77,22 @@ We used Scikit-Learn’s Randomized Search to perform 10-Fold Cross Validation a
 We compared our models based on the F1-score each model got after test set predictions.
 
 
+# Resutls
 
+## Dataset Comparison
+After running the different models on our three datasets, we plotted the results of each model in order to compare their F1 scores.
+We realized that the most performant Dataset was the Merged Dataset, ranging from an F1 score of 88.8% to 92.3%, compared to the other datasets (56.9% to 85.6% for DexFile and 80.7% to 86.8% for Manifest).
 
+## Best Model
+Upon dataset selection, we observed that the most performant model is SVC. We got an F1 score of 92.4% and an accuracy of 92.6% [Figure 9]. We also plotted the Confusion Matrix to compare the true and false predictions. [Figure 10].
 
+## Optimization
+In order to improve the performance of our models, we decided to combine multiple models using the Bagging Method from the Merged Dataset, as most of them were performant but different in the way they are designed.
+The goal behind the Bagging Method is to improve the generalizability and the robustness of a particular model.
+We merged the predictions of SVC, MLP, KNN, Decision Tree Classifier, and Random Forest Classifier. We then made the models vote to compute a final prediction.
 
-
-
-
+## Final Results
+We improved the F1 Score by 1.7%, and the Accuracy by 1.5% using the Bagging Model as shown in [Figure 11].
 
 # References
 

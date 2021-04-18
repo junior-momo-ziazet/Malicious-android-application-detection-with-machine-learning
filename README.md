@@ -94,6 +94,28 @@ We merged the predictions of SVC, MLP, KNN, Decision Tree Classifier, and Random
 ## Final Results
 We improved the F1 Score by 1.7%, and the Accuracy by 1.5% using the Bagging Model as shown in [Figure 11].
 
+# Discussion
+
+## Relevance
+In this research work, we studied Android malware and used machine learning methods for its detection.
+We have shown how the combination of features from certain files, namely Manifest and Classes.dex files, can be realized to represent significant features for the Machine Learning model and enhance detection performance.
+We believe that the data extraction techniques proposed in our work, could lead to improvements in the field of Smartphone Malware Detection such as Android.
+Our work provides reasonable evidence that good Feature Extraction and Model selection can have a great impact on increasing Malware threats. We firmly believe that our work will lead the scientific community to focus on feature extraction so that detection platforms become more adaptive, more accurate, and more secure.
+
+## Limitations
+Even though our solution got 94% in both F1-Score and Accuracy, it has some limitations regarding many aspects such as the data used, the features selected, and real world application. Some limitations are:
+* The Model may not detect new Malwares (also known as Zero-Day Attacks). As the Malwares may modify the features (Permissions and DexFile features) into a new pattern the model implemented doesn’t recognize.
+* As presented in the Introduction, there are two types of Analysis when it comes to Android Malware, Static and Dynamic Analyses. The solution proposed only analyzes the Static Features, without taking the behavior of the Application into consideration (Dynamic Malware Analysis).
+* We only considered Android.manifest and classes.dex during feature extraction, but the APK has more resources such as API calls, Intent, APK signatures etc. Which we could’ve added to our set of features.
+
+## Scalability
+As of the scalability of our solution, we realized that we could improve on the Data Volume aspect due to two factors:
+* The Dataset used represents less than 0.002% of the Android Applications on both the Playstore and Third Party markets.
+* New Applications are constantly being released and the Automatic Extraction of the APK we’ve implemented makes the data extraction universal to any new application that is published.
+ 
+# Conclusion
+This work implemented a static detection method based on Machine Learning providing advantages in the comprehensiveness, accuracy, and expertless dependence of detection. We combined features from both AndroidManifest.xml and classes.dex files, then implemented Machine Learning models. The Bagging model outperformed the other proposed models with an accuracy of 94% and a F1-score of 94%. Although our work also has some limitations, it could be expanded via dynamic malware analysis as well as additional feature extraction in future implementation. It has also shown that malwares can be perceived by examining different aspects of permissions and opcodes.
+
 # References
 
 [1] Peiravian N, Zhu X (2013) Machine learning for android malware detection using permission and API calls. Int Conf Tools Artif Intell:300–305

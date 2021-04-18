@@ -48,26 +48,20 @@ We had over 250 permissions in total, and a consequential part was never used by
 
 ### Value Preprocessing
 We used Scikit-Learn’s Standardscaler to process the values of our features, as the difference between Manifest features and DexFile features was considerable.
-
 After Preprocessing, we managed to reduce our feature count from 356 to 184, and our rows from 11,560 to 10,778 (5230 Benign, 5548 Malicious). [Figure 5]
 
 ## Model Training
-
 We approached model training by experimenting on various models, and different data structures.
 
 ### Dataset
-
 We applied the different models on 3 separate datasets:
 * Manifest features
 * DexFile features
 * Manifest-DexFile features Merge
-
 We split the dataset into Training (80%) and Testing (20%) sets in order to test the model and compare results.
 
 ### Models
-
 We selected seven models to train our data:
-
 * Decision Tree Classifier
 * Random Forest Classifier
 * Multi Layer Perceptron (MLP)
@@ -77,11 +71,9 @@ We selected seven models to train our data:
 * Ensemble Methods on the Best Models
 
 ### Training
-
 We used Scikit-Learn’s Randomized Search to perform 10-Fold Cross Validation and hyperparameter tuning on our models.
 
 ### Metrics
-
 We compared our models based on the F1-score each model got after test set predictions.
 
 
@@ -93,7 +85,7 @@ We compared our models based on the F1-score each model got after test set predi
 
 
 
-## References
+# References
 
 [1] Peiravian N, Zhu X (2013) Machine learning for android malware detection using permission and API calls. Int Conf Tools Artif Intell:300–305
 
